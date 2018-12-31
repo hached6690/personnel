@@ -1,0 +1,58 @@
+﻿@model WebApplication1.ViewModels.PersonnelViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Personnel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnel.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnel.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnel.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnel.DOB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnel.DOB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnel.POB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnel.POB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnel.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnel.PhoneNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Personnel.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
