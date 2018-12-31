@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
         public ActionResult Details(int id)
         {
             var personnel = _context.Personnels.SingleOrDefault(p => p.Id == id);
-
+            
             if (personnel == null)
                 return HttpNotFound();
 
@@ -128,8 +128,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: Personnels/Delete/5
-        [HttpPost]
+        // GET: Personnels/Delete/5
         public ActionResult Delete(int id)
         {
             var personnel = _context.Personnels.SingleOrDefault(p => p.Id == id);
@@ -137,7 +136,10 @@ namespace WebApplication1.Controllers
             if (personnel == null)
                 return HttpNotFound();
 
-            return View("Index");
+            _context.Personnels.Remove(personnel);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
