@@ -6,6 +6,17 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/base/css")
+    @RenderSection("styles", required: false)
+
+    <style>
+        input::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+        input[type="date"]::-webkit-input-placeholder {
+            visibility: hidden !important;
+        }
+    </style>
 
 </head>
 <body>
@@ -44,6 +55,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)
 </body>
 </html>

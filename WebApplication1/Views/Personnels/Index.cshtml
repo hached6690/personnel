@@ -9,13 +9,29 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<p>
+    @using (Html.BeginForm("Index", "Personnels", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="form-group">
+            <select name="sortName" class="form-control" onchange="this.form.submit();">
+                <option value="">Sort name by &mdash;</option>
+                <option value="desc" @(Request.QueryString["sortName"] =="desc" ? "selected" :"")>Descending</option>
+                <option value="asc" @(Request.QueryString["sortName"] =="asc" ? "selected" :"")>Ascending</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" name="qryName" class="form-control" id="inputSearch" placeholder="Filter by name" value="@(Request.QueryString["qryName"])">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    }
+</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Gender)
+            @Html.DisplayNameFor(model => model.GenderId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DOB)
@@ -35,7 +51,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Gender)
+            @Html.DisplayFor(modelItem => item.Gender.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DOB)

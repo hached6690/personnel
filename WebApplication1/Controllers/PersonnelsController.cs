@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class PersonnelsController : Controller
     {
         private ApplicationDbContext _context;
@@ -25,17 +26,41 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Personnels
-        public ActionResult Index()
+        public ActionResult Index(string qryName, string sortName)
         {
-            var personnels = _context.Personnels.ToList();
-            
+            var logged_id = User.Identity.GetUserId();
+            var personnels = _context.Personnels
+                                .Where(p => p.Created_by == logged_id)
+                                .OrderByDescending(p => p.Created_at)
+                                .ToList();
+
+            // Search qry
+            if(!String.IsNullOrEmpty(qryName))
+            {
+                personnels = personnels.Where(p => p.Name.Contains(qryName)).ToList();
+            }
+
+            // Sort name
+            if (!String.IsNullOrEmpty(sortName))
+            {
+                if(sortName == "asc") {
+                    personnels = personnels.OrderBy(p => p.Name).ToList();
+
+                } else if (sortName == "desc") {
+                    personnels = personnels.OrderByDescending(p => p.Name).ToList();
+                }
+            }
+
             return View(personnels);
         }
 
         // GET: Personnels/Details/5
         public ActionResult Details(int id)
         {
-            var personnel = _context.Personnels.SingleOrDefault(p => p.Id == id);
+            var logged_id = User.Identity.GetUserId();
+            var personnel = _context.Personnels
+                                .Where(p => p.Created_by == logged_id)
+                                .SingleOrDefault(p => p.Id == id);
             
             if (personnel == null)
                 return HttpNotFound();
@@ -52,10 +77,9 @@ namespace WebApplication1.Controllers
         // GET: Personnels/Create
         public ActionResult Create()
         {
-            var genders = _context.Genders.ToList();
             var viewModel = new PersonnelViewModel
             {
-                Genders = genders
+                Genders = _context.Genders.ToList()
             };
             
             return View(viewModel);
@@ -65,7 +89,14 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Create(Personnel personnel)
         {
-            if(!ModelState.IsValid)
+            // Assign logged in user id to personnel
+            personnel.Created_by = User.Identity.GetUserId();
+
+            // Debug error
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //Console.WriteLine(errors);
+
+            if (!ModelState.IsValid)
             {
                 var viewModel = new PersonnelViewModel
                 {
@@ -77,11 +108,9 @@ namespace WebApplication1.Controllers
             }
 
             // TODO: Add insert logic here
-            personnel.Created_by = User.Identity.GetUserId<int>();
-
             DateTime created_at = DateTime.Now;
             personnel.Created_at = created_at;
-
+            
             _context.Personnels.Add(personnel);
 
             _context.SaveChanges();
@@ -92,7 +121,10 @@ namespace WebApplication1.Controllers
         // GET: Personnels/Edit/5
         public ActionResult Edit(int id)
         {
-            var personnel = _context.Personnels.SingleOrDefault(p => p.Id == id);
+            var logged_id = User.Identity.GetUserId();
+            var personnel = _context.Personnels
+                                .Where(p => p.Created_by == logged_id)
+                                .SingleOrDefault(p => p.Id == id);
 
             if (personnel == null)
                 return HttpNotFound();
@@ -121,7 +153,13 @@ namespace WebApplication1.Controllers
                 return View("Edit", viewModel);
             }
 
-            _context.Personnels.Add(personnel);
+            var personnelInDb = _context.Personnels.Single(p => p.Id == id);
+
+            personnelInDb.Name = personnel.Name;
+            personnelInDb.GenderId = personnel.GenderId;
+            personnelInDb.DOB = personnel.DOB;
+            personnelInDb.POB = personnel.POB;
+            personnelInDb.PhoneNumber = personnel.PhoneNumber;
 
             _context.SaveChanges();
 
@@ -131,7 +169,10 @@ namespace WebApplication1.Controllers
         // GET: Personnels/Delete/5
         public ActionResult Delete(int id)
         {
-            var personnel = _context.Personnels.SingleOrDefault(p => p.Id == id);
+            var logged_id = User.Identity.GetUserId();
+            var personnel = _context.Personnels
+                                .Where(p => p.Created_by == logged_id)
+                                .SingleOrDefault(p => p.Id == id);
 
             if (personnel == null)
                 return HttpNotFound();

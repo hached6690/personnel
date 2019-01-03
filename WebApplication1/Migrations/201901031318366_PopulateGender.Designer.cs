@@ -7,13 +7,13 @@ namespace WebApplication1.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PopulateGenders : IMigrationMetadata
+    public sealed partial class PopulateGender : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateGenders));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateGender));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812310419139_PopulateGenders"; }
+            get { return "201901031318366_PopulateGender"; }
         }
         
         string IMigrationMetadata.Source
