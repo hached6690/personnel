@@ -13,6 +13,8 @@ namespace WebApplication1.App_Start
         public MappingProfile()
         {
             CreateMap<Personnel, PersonnelDto>();
+            CreateMap<Gender, GenderDto>();
+            CreateMap<ApplicationUser, UserDto>();
         }
     }
 }

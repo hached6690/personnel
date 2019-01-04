@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models;
 
 namespace WebApplication1.Dtos
 {
@@ -15,6 +16,8 @@ namespace WebApplication1.Dtos
         [StringLength(256)]
         public string Name { get; set; }
 
+        public GenderDto Gender { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime DOB { get; set; }
@@ -24,6 +27,8 @@ namespace WebApplication1.Dtos
 
         [StringLength(12)]
         public string PhoneNumber { get; set; }
+
+        public UserDto User { get; set; }
 
         [DataType(DataType.Date)]
         [DefaultValue("getutcdate()")]
