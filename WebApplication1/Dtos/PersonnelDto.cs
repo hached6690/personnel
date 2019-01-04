@@ -9,17 +9,24 @@ namespace WebApplication1.Dtos
 {
     public class PersonnelDto
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(256)]
         public string Name { get; set; }
 
-        public string Gender { get; set; }
-
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime DOB { get; set; }
 
-        [StringLength(128)]
-        public string User { get; set; }
+        [StringLength(256)]
+        public string POB { get; set; }
+
+        [StringLength(12)]
+        public string PhoneNumber { get; set; }
+
+        [DataType(DataType.Date)]
+        [DefaultValue("getutcdate()")]
+        public DateTime Created_at { get; set; }
     }
 }

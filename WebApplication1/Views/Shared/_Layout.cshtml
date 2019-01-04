@@ -7,12 +7,15 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/jquery-confirm")
+    @Styles.Render("~/Content/jquery-datatable")
     @RenderSection("styles", required: false)
 
     <style>
         input::-webkit-calendar-picker-indicator {
             display: none;
         }
+
         input[type="date"]::-webkit-input-placeholder {
             visibility: hidden !important;
         }
@@ -35,6 +38,7 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Personnels", "Index", "Personnels")</li>
+                        <li>@Html.ActionLink("Ajaxs", "Index", "AjaxPersonnels")</li>
                     }
 
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -56,6 +60,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jquery-confirm")
+    @Scripts.Render("~/bundles/jquery-datatable")
     @RenderSection("scripts", required: false)
 </body>
 </html>

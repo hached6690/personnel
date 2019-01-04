@@ -1,0 +1,114 @@
+﻿@model WebApplication1.ViewModels.PersonnelViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "__ajax" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Personnel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Personnel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Personnel.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Personnel.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Personnel.GenderId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Personnel.GenderId, new SelectList(Model.Genders, "Id", "Name"), "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Personnel.GenderId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Personnel.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Personnel.DOB, new { htmlAttributes = new { @type="text", @class = "form-control date-picker" } })
+                @Html.ValidationMessageFor(model => model.Personnel.DOB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Personnel.POB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Personnel.POB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Personnel.POB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Personnel.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Personnel.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Personnel.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                dateFormat: 'dd M yy'
+            });
+
+            // document ready
+            jQuery(document).ready(function (e) {
+                $("input[type='submit']").on('click', function (evt) {
+                    evt.preventDefault();
+
+                    var token = $('input[name="__RequestVerificationToken"]', '__ajax').val();
+                    var _personnel = {};
+                        _personnel.Name = $('input[id="Personnel_Name"]').val(),
+                        _personnel.GenderId = $('input[id="Personnel_GenderId"]').val(),
+                        _personnel.DOB = $('input[id="Personnel_DOB"]').val(),
+                        _personnel.POB = $('input[id="Personnel_POB"]').val(),
+                        _personnel.PhoneNumber = $('input[id="Personnel_PhoneNumber"]').val();
+
+                    // debug errror
+                    console.log(_personnel);
+
+                    $.ajax({
+                        url: '/api/ajax/personnels/create',
+                        type: "POST",
+                        data: {
+                            __RequestVerificationToken: token,
+                            personnel: _personnel
+                        },
+                        dataType: "json",
+                        contentType: "application/json;charset=utf-8",
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (responseData, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

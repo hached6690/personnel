@@ -89,12 +89,8 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Create(Personnel personnel)
         {
-            // Assign logged in user id to personnel
-            personnel.Created_by = User.Identity.GetUserId();
-
             // Debug error
             var errors = ModelState.Values.SelectMany(v => v.Errors);
-            //Console.WriteLine(errors);
 
             if (!ModelState.IsValid)
             {
@@ -106,6 +102,9 @@ namespace WebApplication1.Controllers
 
                 return View("Create", viewModel);
             }
+
+            // Assign logged in user id to personnel
+            personnel.Created_by = User.Identity.GetUserId();
 
             // TODO: Add insert logic here
             DateTime created_at = DateTime.Now;

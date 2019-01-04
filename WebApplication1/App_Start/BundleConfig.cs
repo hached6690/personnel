@@ -32,6 +32,22 @@ namespace WebApplication1
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                     "~/Content/themes/base/all.css"));
+
+            // jQuery Confirm
+            bundles.Add(new ScriptBundle("~/bundles/jquery-confirm").Include(
+                    "~/Scripts/jquery-confirm.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/jquery-confirm").Include(
+                    "~/Content/jquery-confirm.min.css"));
+
+            // jQuery Datatable
+            bundles.Add(new ScriptBundle("~/bundles/jquery-datatable").Include(
+                    "~/Scripts/DataTables/jquery.dataTables.min.js",
+                    "~/Scripts/DataTables/dataTables.bootstrap.min.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/jquery-datatable").Include(
+                    "~/Content/DataTables/css/jquery.dataTables.min.css"));
         }
     }
 }
