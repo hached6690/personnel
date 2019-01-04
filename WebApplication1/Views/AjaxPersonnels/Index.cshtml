@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.GenderId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DOB)
             </th>
             <th>
@@ -47,6 +50,12 @@
                         data: "Name",
                         render: function (data, type, personnel) {
                             return personnel.Name;
+                        }
+                    },
+                    {
+                        data: "Gender",
+                        render: function (data) {
+                            return data.Name;
                         }
                     },
                     {
