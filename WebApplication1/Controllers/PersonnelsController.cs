@@ -152,7 +152,10 @@ namespace WebApplication1.Controllers
                 return View("Edit", viewModel);
             }
 
-            var personnelInDb = _context.Personnels.Single(p => p.Id == id);
+            var logged_id = User.Identity.GetUserId();
+            var personnelInDb = _context.Personnels
+                                    .Where(p => p.Created_by == logged_id)
+                                    .Single(p => p.Id == id);
 
             personnelInDb.Name = personnel.Name;
             personnelInDb.GenderId = personnel.GenderId;

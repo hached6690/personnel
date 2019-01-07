@@ -42,7 +42,7 @@
         jQuery(document).ready(function (e) {
             $('#personnels').DataTable({
                 ajax: {
-                    url: '/api/ajax/personnels',
+                    url: '/AjaxPersonnels/Listing',
                     dataSrc: '',
                 },
                 columns: [
@@ -79,11 +79,67 @@
                     {
                         data: "Id",
                         render: function (data) {
-                            return `<a href='/personnels/edit/` + data + `'>Edit</a> |
-                                    <a href='/personnels/delete/`+ data +`'>Delete</a>`;
+                            return `<a href='/AjaxPersonnels/edit/` + data + `'>Edit</a> |
+                                    <a href='javascript:;' class="__ajaxDelete" data-personnel_id="`+ data +`">Delete</a>`;
                         }
                     }
                 ]
+            });
+
+            // Delete personnel
+            $("#personnels").on('click', ".__ajaxDelete", function (evt) {
+                //debugger
+                evt.preventDefault();
+
+                var $this = $(this);
+
+                $.confirm({
+                    theme: 'supervan',
+                    title: "<i class='glyphicon glyphicon-bullhorn'></i> System warning &mdash;",
+                    content: "Do you really want to Remove this record ?",
+                    buttons: {
+                        yes: {
+                            action: function () {
+
+                                var token = $('form.__ajax input[name="__RequestVerificationToken"]').val();
+
+                                var _personnel = {};
+                                _personnel.Id = $this.data("personnel_id");
+
+                                $.ajax({
+                                    url: '/AjaxPersonnels/Delete/' + _personnel.Id,
+                                    type: "POST",
+                                    data: JSON.stringify(_personnel),
+                                    dataType: "json",
+                                    contentType: "application/json;charset=utf-8",
+                                    cache: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        if (data.msg != '') {
+                                            $.confirm({
+                                                theme: 'supervan',
+                                                title: false,
+                                                content: data.msg,
+                                                buttons: {
+                                                    ok: {
+                                                        action: function () {
+                                                            window.location.reload();
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function (responseData, textStatus, errorThrown) {
+                                        console.log(textStatus);
+                                    }
+                                });
+                            }
+                        },
+                        no: {}
+                    }
+                }); 
+                
             });
         });
     </script>

@@ -10,56 +10,58 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Personnel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Personnel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Personnel.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Personnel.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="form-horizontal">
+    <h4>Personnel</h4>
+    <hr />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Personnel.GenderId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Personnel.GenderId, new SelectList(Model.Genders, "Id", "Name"), "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Personnel.GenderId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div id="__ajaxErrors" class="text-danger validation-summary-errors" data-valmsg-summary="true"></div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Personnel.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Personnel.DOB, new { htmlAttributes = new { @type="text", @class = "form-control date-picker" } })
-                @Html.ValidationMessageFor(model => model.Personnel.DOB, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Personnel.POB, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Personnel.POB, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Personnel.POB, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Personnel.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Personnel.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Personnel.PhoneNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personnel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personnel.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Personnel.Name, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personnel.GenderId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Personnel.GenderId, new SelectList(Model.Genders, "Id", "Name"), "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Personnel.GenderId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personnel.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personnel.DOB, new { htmlAttributes = new { @type="text", @class = "form-control date-picker" } })
+            @Html.ValidationMessageFor(model => model.Personnel.DOB, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personnel.POB, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personnel.POB, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Personnel.POB, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personnel.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personnel.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Personnel.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -76,32 +78,47 @@
             // document ready
             jQuery(document).ready(function (e) {
                 $("input[type='submit']").on('click', function (evt) {
+                    //debugger
                     evt.preventDefault();
 
-                    var token = $('input[name="__RequestVerificationToken"]', '__ajax').val();
-                    var _personnel = {};
-                        _personnel.Name = $('input[id="Personnel_Name"]').val(),
-                        _personnel.GenderId = $('input[id="Personnel_GenderId"]').val(),
-                        _personnel.DOB = $('input[id="Personnel_DOB"]').val(),
-                        _personnel.POB = $('input[id="Personnel_POB"]').val(),
-                        _personnel.PhoneNumber = $('input[id="Personnel_PhoneNumber"]').val();
+                    var token = $('form.__ajax input[name="__RequestVerificationToken"]').val();
 
-                    // debug errror
-                    console.log(_personnel);
+                    var _personnel = {};
+                    _personnel.Name = $('input[id="Personnel_Name"]').val(),
+                    _personnel.GenderId = $('select[id="Personnel_GenderId"]').val(),
+                    _personnel.DOB = $('input[id="Personnel_DOB"]').val(),
+                    _personnel.POB = $('input[id="Personnel_POB"]').val(),
+                    _personnel.PhoneNumber = $('input[id="Personnel_PhoneNumber"]').val();
 
                     $.ajax({
-                        url: '/api/ajax/personnels/create',
+                        url: '/AjaxPersonnels/create',
                         type: "POST",
-                        data: {
-                            __RequestVerificationToken: token,
-                            personnel: _personnel
-                        },
+                        data: JSON.stringify(_personnel),
                         dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         cache: false,
                         processData: false,
                         success: function (data) {
-                            console.log(data);
+                            if (!data.result) {
+                                var $err = $("#__ajaxErrors").html('').append("<ul></ul>");
+
+                                jQuery.each(data.errors, function (k, v) {
+                                    $err.find("ul").append("<li>" + v.ErrorMessage + "</li>");
+                                });
+                            } else {
+                                $.confirm({
+                                    theme: 'supervan',
+                                    title: false,
+                                    content: data.msg,
+                                    buttons: {
+                                        ok: {
+                                            action: function () {
+                                                window.location.reload();
+                                            }
+                                        }
+                                    }
+                                });
+                            }
                         },
                         error: function (responseData, textStatus, errorThrown) {
                             console.log(textStatus);

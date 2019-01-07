@@ -69,8 +69,9 @@ namespace WebApplication1.Controllers.Api
             }
 
             // Assign logged in user id to personnel
-            var logged_id = User.Identity.GetUserId();
-            personnel.Created_by = logged_id;
+            // Need to implement OAuth2 or Something to get Authorizor
+            //var logged_id = User.Identity.GetUserId();
+            //personnel.Created_by = logged_id;
 
             DateTime created_at = DateTime.Now;
             personnel.Created_at = created_at;
@@ -119,52 +120,6 @@ namespace WebApplication1.Controllers.Api
 
             _context.Personnels.Remove(personnelInDb);
             _context.SaveChanges();
-        }
-
-
-        // For ajax request listing, create, update, delete
-
-        [HttpGet]
-        [Authorize]
-        [Route("api/ajax/personnels")]
-        public IEnumerable<PersonnelDto> AjaxPersonnels()
-        {
-            NameValueCollection nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-
-            var qryDOB = nvc["qryDOB"];
-
-            var logged_in = User.Identity.GetUserId();
-            var personnels = _context.Personnels
-                                .Where(p => p.Created_by == logged_in)
-                                .OrderByDescending(p => p.Created_at)
-                                .ProjectTo<PersonnelDto>()
-                                .ToList();
-
-            // Filter by DOB
-            if (!String.IsNullOrEmpty(qryDOB))
-            {
-                personnels = personnels.Where(p => p.DOB < Convert.ToDateTime(qryDOB)).ToList();
-            }
-
-            return personnels;
-        }
-
-        [HttpPost]
-        [Authorize]
-        //[ValidateAntiForgeryToken]
-        [Route("api/ajax/personnels/create")]
-        public IHttpActionResult CreateAjaxPersonnel(Personnel personnel)
-        {
-            // Assign logged in user id to personnel
-            personnel.Created_by = User.Identity.GetUserId();
-
-            DateTime created_at = DateTime.Now;
-            personnel.Created_at = created_at;
-
-            _context.Personnels.Add(personnel);
-            _context.SaveChanges();
-
-            return Json(personnel);
         }
     }
 }

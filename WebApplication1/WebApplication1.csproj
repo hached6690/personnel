@@ -205,6 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PersonnelsController.cs" />
+    <Compile Include="Dtos\AjaxPersonnelDto.cs" />
     <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\PersonnelDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />
